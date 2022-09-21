@@ -1,1 +1,1 @@
-# horoscope
+# Astrology

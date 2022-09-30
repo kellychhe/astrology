@@ -3,13 +3,15 @@
 """The user will enter their birthday and their zodiac sign will be displayed with a description"""
 
 # brought in the datetime library to help with formatting, input validation, and date comparison
+# shutil imported to center ascii description (works best in full computer screen)
+# import colorama to add color to terminal
 import datetime
 import shutil
-import colorama
+from colorama import Fore, Back, Style
 
 columns = shutil.get_terminal_size().columns
 
-## create a dictionary containing all info about zodiac signs
+## create a dictionary containing all info (ascii illustration and description) about zodiac signs
 # ascii art is from https://asciiart.website/index.php?art=religion/astrology
 Zodiac = {
     "Aries" : {
@@ -67,7 +69,7 @@ Zodiac = {
 def check_valid_num(input_string):
     # ask for a new input whenever the input is not a digit
     while not input_string.isdigit():
-        print(f"\n-----{input_string} is not a number. Please try again.-----")
+        print(f"\n{Back.RED}-----\'{input_string}\' is not a number. Please try again.-----{Style.RESET_ALL}")
         input_string = input("\t\t ---> \t")
 
     # turn the string to a number
@@ -96,7 +98,7 @@ def get_birthdate():
         date = datetime.date(year, month, day)
     # if datetime returns this particular error, notify the user and run entire function again for a  new date
     except ValueError:
-        print("\n-----Invalid date format, try again.-----")
+        print(f"\n{Back.RED}-----Invalid date format, try again.-----{Style.RESET_ALL}")
         date = get_birthdate()
 
     # return the formatted date for use in the main() function
@@ -147,8 +149,9 @@ def get_zodiac(date):
         zodiac_sign = "Capricorn"
     
     else:
-        print("\n-----Hmmm... Something went wrong. Lets try this again!-----")
+        print(f"\n{Back.RED}-----Hmmm... Something went wrong. Lets try this again!-----{Style.RESET_ALL}")
         main()
+        
     zodiac_description = Zodiac[zodiac_sign]["description"]
     for ascii in Zodiac[zodiac_sign]["ascii"]:
         print(f"{ascii}".center(columns))
@@ -172,7 +175,7 @@ def main():
 
     # check validity of the input ( did the user answer yes or no ) if no then run it again
     while response.lower() not in ["yes", "no"]:
-        print(f"{response} is not a valid input. Please try again.")
+        print(f"{Back.RED}\'{response}\' is not a valid input. Please try again.{Style.RESET_ALL}")
         response = input("\t(Yes/No) ---> ")
 
     # if the user says no make a comment and end the program,
@@ -184,7 +187,7 @@ def main():
         get_zodiac(date)
     
     # signals the end of the program
-    print("\n\nGoodbye!  UwU\n\n")
+    print(f"{Fore.LIGHTGREEN_EX}\n\nGoodbye!  UwU\n\n")
 
 
 # run the main function
